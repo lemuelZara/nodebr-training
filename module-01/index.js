@@ -3,31 +3,35 @@
  * Obter o número de telefone de um usuário a partir de seu ID
  * Obter o endereço do usuário pelo ID
  */
+const util = require('util')
+const obterEnderecoAsync = util.promisify(obterEndereco)
 
-const obterUsuario = callback => {
-    setTimeout(() => {
-        return callback(
-            null,
-            {
+const obterUsuario = () => {
+    // Problema -> reject
+    // Sucesso  -> resolve
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            return resolve({
                 id: 1,
                 nome: 'Lemuel Coelho Zara',
                 dataNascimento: new Date()
             })
-    }, 2000)
+        }, 2000)
+    })
 }
 
-const obterTelefone = (idUsuario, callback) => {
-    setTimeout(() => {
-        return callback(
-            null,
-            {
+const obterTelefone = idUsuario => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            return resolve({
                 telefone: '99787-6822',
                 ddd: 17
             })
-    }, 3000)
+        }, 3000)
+    })
 }
 
-const obterEndereco = (idUsuario, callback) => {
+function obterEndereco(idUsuario, callback) {
     setTimeout(() => {
         return callback(
             null,
@@ -39,11 +43,37 @@ const obterEndereco = (idUsuario, callback) => {
     }, 2000)
 }
 
-const resolverUsuario = (err, success) => {
-    console.log(success)
-}
+const usuarioPromisse = obterUsuario()
 
-obterUsuario((err, usuario) => {
+usuarioPromisse
+    .then(response => {
+        return obterTelefone(response.id)
+            .then(responseTel => {
+                return {
+                    responseUser: response,
+                    responseTel
+                }
+            })
+    })
+    .then(response => {
+        const endereco = obterEnderecoAsync(response.id)
+        return endereco
+            .then(responseEnd => {
+                return {
+                    usuario: response.responseUser,
+                    telefone: response.responseTel,
+                    endereco: responseEnd
+                }
+            })
+    })
+    .then(response => {
+        console.log('Usuário: ', response)
+    })
+    .catch(err => {
+        console.error('Error: ', err)
+    })
+
+/*obterUsuario((err, usuario) => {
     // null || "" || 0 === false
     if (err) {
         console.error('Error!')
@@ -63,10 +93,10 @@ obterUsuario((err, usuario) => {
             }
 
             console.log(`
-            Nome: ${usuario.nome}, 
+            Nome: ${usuario.nome},
             Endereço: ${endereco.rua} - ${endereco.numero}
             Telefone: ${telefone.ddd} ${telefone.telefone}
             `)
         })
     })
-})
+})*/
