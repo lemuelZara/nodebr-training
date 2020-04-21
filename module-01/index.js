@@ -43,60 +43,24 @@ function obterEndereco(idUsuario, callback) {
     }, 2000)
 }
 
-const usuarioPromisse = obterUsuario()
+main()
+async function main() {
+    try {
+        console.time('medida-promise')
+        const usuario = await obterUsuario()
 
-usuarioPromisse
-    .then(response => {
-        return obterTelefone(response.id)
-            .then(responseTel => {
-                return {
-                    responseUser: response,
-                    responseTel
-                }
-            })
-    })
-    .then(response => {
-        const endereco = obterEnderecoAsync(response.id)
-        return endereco
-            .then(responseEnd => {
-                return {
-                    usuario: response.responseUser,
-                    telefone: response.responseTel,
-                    endereco: responseEnd
-                }
-            })
-    })
-    .then(response => {
-        console.log('Usuário: ', response)
-    })
-    .catch(err => {
-        console.error('Error: ', err)
-    })
-
-/*obterUsuario((err, usuario) => {
-    // null || "" || 0 === false
-    if (err) {
-        console.error('Error!')
-        return
+        const result = await Promise.all([
+            obterTelefone(usuario.id),
+            obterEnderecoAsync(usuario.id)
+        ])
+        console.log(JSON.stringify({
+            usuario,
+            telefone: result[0],
+            endereco: result[1]
+        }))
+        console.timeEnd('medida-promise')
+    } catch (error) {
+        console.error('Deu erro!', error)
     }
+}
 
-    obterTelefone(usuario.id, (err, telefone) => {
-        if (err) {
-            console.error('Error!')
-            return
-        }
-
-        obterEndereco(usuario.id, (err, endereco) => {
-            if (err) {
-                console.error('Error!')
-                return
-            }
-
-            console.log(`
-            Nome: ${usuario.nome},
-            Endereço: ${endereco.rua} - ${endereco.numero}
-            Telefone: ${telefone.ddd} ${telefone.telefone}
-            `)
-        })
-    })
-})*/
