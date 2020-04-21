@@ -1,0 +1,1 @@
+# Synchronization of Javascript functions
