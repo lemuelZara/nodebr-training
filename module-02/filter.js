@@ -5,7 +5,6 @@ Array.prototype.meuFilter = function (callback) {
 
     // O this é o Array que estou passando
     for (const [index, value] of this.entries()) {
-        console.log('Item: ', index)
         const resultado = callback(value, index, this)
 
         if (!resultado) {
