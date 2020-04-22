@@ -2,14 +2,6 @@ const { readFileSync, writeFileSync } = require('fs')
 const path = require('path')
 const { promisify } = require('util')
 
-const listarHerois = async id => {
-    const dados = await obterDadosHerois()
-
-    const dadosFiltrados = dados.filter(item => (id ? (item.id === id) : true))
-
-    return dadosFiltrados
-}
-
 // Leio os dados dentro do arquivo herois.json
 const obterDadosHerois = () => {
     const arquivo = readFileSync(path.resolve(__dirname, './herois.json'))
@@ -21,6 +13,16 @@ const escreverHerois = dados => {
     writeFileSync(path.resolve(__dirname, './herois.json'), JSON.stringify(dados))
 
     return true
+}
+
+// <- ! ->
+
+const listarHerois = async id => {
+    const dados = await obterDadosHerois()
+
+    const dadosFiltrados = dados.filter(item => (id ? (item.id === id) : true))
+
+    return dadosFiltrados
 }
 
 const cadastrarHeroi = async heroi => {
@@ -58,10 +60,31 @@ const removerHeroi = async id => {
     return escreverHerois(dados)
 }
 
+const atualizarHeroi = async (id, dadosHeroiAlteracao) => {
+    const dados = await obterDadosHerois()
+
+    const index = dados.findIndex(item => item.id === parseInt(id))
+
+    if (index === -1) {
+        throw Error('O Herói informado não existe')
+    }
+
+    const atual = dados[index]
+    const dadosAlteracao = {
+        ...atual,
+        ...dadosHeroiAlteracao
+    }
+
+    dados.splice(index)
+
+    return escreverHerois([...dados, dadosAlteracao])
+}
+
 module.exports = {
     listarHerois,
     obterDadosHerois,
     escreverHerois,
     cadastrarHeroi,
-    removerHeroi
+    removerHeroi,
+    atualizarHeroi
 }
