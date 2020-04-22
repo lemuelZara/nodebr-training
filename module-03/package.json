@@ -1,0 +1,14 @@
+{
+  "name": "module-03",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "global": "^4.4.0",
+    "nock": "^12.0.3"
+  },
+  "devDependencies": {
+    "mocha": "^7.1.1"
+  }
+}
