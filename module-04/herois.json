@@ -1,17 +1,22 @@
 [
     {
         "id": 1,
-        "nome": "Flash",
-        "poder": "Speed"
-    },
-    {
-        "id": 1,
-        "nome": "Flash",
-        "poder": "Speed"
+        "nome": "Batman",
+        "poder": "Dinheiro"
     },
     {
         "id": 2,
-        "nome": "Superman",
-        "poder": "Super força"
+        "nome": "Annie",
+        "poder": "Urso"
+    },
+    {
+        "id": 4,
+        "nome": "Flash",
+        "poder": "Super velocidade"
+    },
+    {
+        "id": 3,
+        "nome": "Garen",
+        "poder": "Espada"
     }
 ]

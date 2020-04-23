@@ -1,6 +1,5 @@
 const { readFileSync, writeFileSync } = require('fs')
 const path = require('path')
-const { promisify } = require('util')
 
 // Leio os dados dentro do arquivo herois.json
 const obterDadosHerois = () => {
@@ -63,7 +62,10 @@ const removerHeroi = async id => {
 const atualizarHeroi = async (id, dadosHeroiAlteracao) => {
     const dados = await obterDadosHerois()
 
-    const index = dados.findIndex(item => item.id === parseInt(id))
+    // Encontro o índice do herói a ser alterado
+    const index = dados.findIndex(item => {
+        return item.id === parseInt(id)
+    })
 
     if (index === -1) {
         throw Error('O Herói informado não existe')
@@ -75,7 +77,8 @@ const atualizarHeroi = async (id, dadosHeroiAlteracao) => {
         ...dadosHeroiAlteracao
     }
 
-    dados.splice(index)
+    // Removo os elementos que estão no índice encontrado
+    dados.splice(index, 1)
 
     return escreverHerois([...dados, dadosAlteracao])
 }
