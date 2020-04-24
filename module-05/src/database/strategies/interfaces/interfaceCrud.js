@@ -3,6 +3,8 @@ class NotImplementedException extends Error {
 }
 
 class InterfaceCRUD {
+    isConnected() { throw new NotImplementedException() }
+
     create(item) { throw new NotImplementedException() }
 
     read(query) { throw new NotImplementedException() }
