@@ -1,0 +1,17 @@
+{
+  "name": "module-05",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha __tests__/postgresql.test.js"
+  },
+  "dependencies": {
+    "pg": "^8.0.3",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.21.7"
+  },
+  "devDependencies": {
+    "mocha": "^7.1.1"
+  }
+}
