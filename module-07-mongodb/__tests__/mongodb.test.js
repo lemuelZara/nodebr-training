@@ -23,4 +23,12 @@ describe('MongoDB: Suíte de Testes', () => {
 
         assert.deepEqual(heroi, { nome, poder })
     })
+
+    it.only('deve listar os heróis', async () => {
+        const heroi = { nome: 'Batman', poder: 'Dinheiro' }
+
+        const [{ nome, poder }] = await mongodbContext.read({ nome: heroi.nome })
+
+        assert.deepEqual(heroi, { nome, poder })
+    })
 })
