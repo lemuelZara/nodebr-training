@@ -17,7 +17,7 @@ describe('MongoDB: Suíte de Testes', () => {
     })
 
     it('deve cadastrar um herói', async () => {
-        const heroi = { nome: 'Mulher Maravilha', poder: 'Laço' }
+        const heroi = { nome: 'Lanterna Verde', poder: 'Anel' }
 
         const { nome, poder } = await mongodbContext.create(heroi)
 

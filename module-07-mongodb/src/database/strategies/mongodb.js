@@ -22,9 +22,9 @@ class MongoDB extends InterfaceCRUD {
         const state = connectionState[this._driver.readyState]
 
         if (state === 'Connected') return state
-        
+
         if (state === 'Connecting')
-        await new Promise(resolve => setTimeout(resolve, 1000))
+            await new Promise(resolve => setTimeout(resolve, 1000))
 
         return connectionState[this._driver.readyState]
     }
@@ -32,7 +32,10 @@ class MongoDB extends InterfaceCRUD {
     connect() {
         mongoose.connect(
             `mongodb://${encodeURIComponent('dev_user@1')}:user1@localhost:27017/heroes`,
-            { useNewUrlParser: true, useUnifiedTopology: true },
+            {
+                useNewUrlParser: true,
+                useUnifiedTopology: true
+            },
             error => {
                 if (!error) return
                 console.log('Erro na conexão: ', error)
