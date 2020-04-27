@@ -82,6 +82,12 @@ class MongoDB extends InterfaceCRUD {
             new: true
         })
     }
+
+    delete(id) {
+        return this._heroiSchema.findByIdAndRemove(id, {
+            select: ['_id']
+        })
+    }
 }
 
 module.exports = MongoDB
