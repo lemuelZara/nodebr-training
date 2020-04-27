@@ -72,6 +72,16 @@ class MongoDB extends InterfaceCRUD {
     create(item) {
         return this._heroiSchema.create(item)
     }
+
+    read(query = {}) {
+        return this._heroiSchema.find(query)
+    }
+
+    update(id, hero) {
+        return this._heroiSchema.findByIdAndUpdate(id, hero, {
+            new: true
+        })
+    }
 }
 
 module.exports = MongoDB
