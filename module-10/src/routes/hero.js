@@ -14,6 +14,9 @@ class Hero extends Base {
             path: '/heroes',
             method: 'GET',
             config: {
+                tags: ['api'],
+                description: 'Deve listar os Heróis',
+                notes: 'Pode paginar resultados e filtrar por nome',
                 validate: {
                     // Payload = body
                     // Headers = header
@@ -46,7 +49,10 @@ class Hero extends Base {
         return {
             method: 'POST',
             path: '/heroes',
-            config: {
+            config: {                
+                tags: ['api'],
+                description: 'Deve cadastrar os Heróis',
+                notes: 'Deve cadastrar um Herói com nome e poder',
                 validate: {
                     payload: {
                         nome: Joi.string().required().min(3).max(100),
@@ -68,7 +74,10 @@ class Hero extends Base {
         return {
             path: '/heroes/{id}',
             method: 'PATCH',
-            config: {
+            config: {                
+                tags: ['api'],
+                description: 'Deve atualizar os Heróis',
+                notes: 'Pode atualizar qualquer campo',
                 validate: {
                     params: {
                         id: Joi.string().required()
@@ -104,6 +113,10 @@ class Hero extends Base {
             path: '/heroes/{id}',
             method: 'DELETE',
             config: {
+                
+                tags: ['api'],
+                description: 'Deve remover os Heróis',
+                notes: 'O ID tem que ser válido',
                 validate: {
                     params: {
                         id: Joi.string().required()

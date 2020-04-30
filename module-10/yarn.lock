@@ -2,23 +2,6 @@
 # yarn lockfile v1
 
 
-"@hapi/boom@^8.0.1":
-  version "8.0.1"
-  resolved "https://registry.yarnpkg.com/@hapi/boom/-/boom-8.0.1.tgz#13f1f2f2a3abfb0787c79e35e238c8aff6aa1661"
-  integrity sha512-SnBM2GzEYEA6AGFKXBqNLWXR3uNBui0bkmklYXX1gYtevVhDTy2uakwkSauxvIWMtlANGRhzChYg95If3FWCwA==
-  dependencies:
-    "@hapi/hoek" "8.x.x"
-
-"@hapi/hoek@8.x.x":
-  version "8.5.1"
-  resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-8.5.1.tgz#fde96064ca446dec8c55a8c2f130957b070c6e06"
-  integrity sha512-yN7kbciD87WzLGc5539Tn0sApjyiGHAJgKvG9W8C7O+6c7qmoQMfVs0W4bX17eqz6C78QJqqFrtgdK5EWf6Qow==
-
-"@hapi/hoek@^9.0.2":
-  version "9.0.4"
-  resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.0.4.tgz#e80ad4e8e8d2adc6c77d985f698447e8628b6010"
-  integrity sha512-EwaJS7RjoXUZ2cXXKZZxZqieGtc7RbvQhUy8FwDoMQtxWVi14tFjeFCYPZAM1mBCpOpiBpyaZbb9NeHc7eGKgw==
-
 "@types/node@*":
   version "13.13.4"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-13.13.4.tgz#1581d6c16e3d4803eb079c87d4ac893ee7501c2c"
@@ -116,7 +99,7 @@ bluebird@^3.5.0:
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
   integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
 
-boom@7.x.x:
+boom@7.x.x, boom@^7.1.1:
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/boom/-/boom-7.3.0.tgz#733a6d956d33b0b1999da3fe6c12996950d017b9"
   integrity sha512-Swpoyi2t5+GhOEGw8rEsKvTxFLIDiiKoUc2gsoV6Lyr43LHBIzch3k2MvYUs8RTROrIkVJ3Al0TkaOGjnb+B6A==
@@ -447,7 +430,7 @@ growl@1.10.5:
   resolved "https://registry.yarnpkg.com/growl/-/growl-1.10.5.tgz#f2735dc2283674fa67478b10181059355c369e5e"
   integrity sha512-qBr4OuELkhPenW6goKVXiv47US3clb3/IbuWF9KNKEijAy9oeHxU9IgzjvJhHkUzhaj7rOUD7+YGWqUjLp5oSA==
 
-handlebars@^4.5.3:
+handlebars@^4.0.11:
   version "4.7.6"
   resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.7.6.tgz#d4c05c1baf90e9945f77aa68a7a219aa4a7df74e"
   integrity sha512-1f2BACcBfiwAfStCKZNrUCgqNZkGsAT7UM3kkYtXuLo0KnaVfjKOyf7PRzB6++aK9STyT1Pd2ZCPe3EGOXleXA==
@@ -459,18 +442,18 @@ handlebars@^4.5.3:
   optionalDependencies:
     uglify-js "^3.1.4"
 
-hapi-swagger@^13.0.0:
-  version "13.0.0"
-  resolved "https://registry.yarnpkg.com/hapi-swagger/-/hapi-swagger-13.0.0.tgz#e4f94bb803c5771d1f064ed0fe7162793ae2241b"
-  integrity sha512-DlnfmjcWnrUapVLjwxZzjwQHDrLX/HGLmKHdzkpCx6nzKh36GbeerPNE7wvCghvWyzwxq7fEbgZPsqOlNvsLSA==
+hapi-swagger@9.1.3:
+  version "9.1.3"
+  resolved "https://registry.yarnpkg.com/hapi-swagger/-/hapi-swagger-9.1.3.tgz#13458373f03eb52defef17f1340d6774f8495397"
+  integrity sha512-zTFPxWBOPVhHfRKHHqJXweANP90gEfp+LPb2S/x32YJSir/J/jlj/WgKIp8hbujJA964hwCaqRizYQKkAHot2w==
   dependencies:
-    "@hapi/boom" "^8.0.1"
-    "@hapi/hoek" "^9.0.2"
-    handlebars "^4.5.3"
+    boom "^7.1.1"
+    handlebars "^4.0.11"
+    hoek "^5.0.3"
     http-status "^1.0.1"
-    json-schema-ref-parser "^6.1.0"
+    joi "^13.1.2"
+    json-schema-ref-parser "^4.1.0"
     swagger-parser "4.0.2"
-    swagger-ui-dist "^3.22.1"
 
 hapi@^18.1.0:
   version "18.1.0"
@@ -526,6 +509,11 @@ heavy@6.x.x:
     boom "7.x.x"
     hoek "6.x.x"
     joi "14.x.x"
+
+hoek@5.x.x, hoek@^5.0.3:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/hoek/-/hoek-5.0.4.tgz#0f7fa270a1cafeb364a4b2ddfaa33f864e4157da"
+  integrity sha512-Alr4ZQgoMlnere5FZJsIyfIjORBqZll5POhDsF4q64dPuJR6rNxXdDxtHSQq8OXRurhmx+PWYEE8bXRROY8h0w==
 
 hoek@6.x.x:
   version "6.1.3"
@@ -671,7 +659,16 @@ joi@14.x.x, joi@^14.3.1:
     isemail "3.x.x"
     topo "3.x.x"
 
-js-yaml@3.13.1, js-yaml@^3.10.0, js-yaml@^3.12.1:
+joi@^13.1.2:
+  version "13.7.0"
+  resolved "https://registry.yarnpkg.com/joi/-/joi-13.7.0.tgz#cfd85ebfe67e8a1900432400b4d03bbd93fb879f"
+  integrity sha512-xuY5VkHfeOYK3Hdi91ulocfuFopwgbSORmIwzcwHKESQhC7w1kD5jaVSPnqDxS2I8t3RZ9omCKAxNwXN5zG1/Q==
+  dependencies:
+    hoek "5.x.x"
+    isemail "3.x.x"
+    topo "3.x.x"
+
+js-yaml@3.13.1, js-yaml@^3.10.0:
   version "3.13.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.13.1.tgz#aff151b30bfdfa8e49e05da22e7415e9dfa37847"
   integrity sha512-YfbcO7jXDdyj0DGxYVSlSeQNHbD7XPWvrVWeVUujrQEoZzWJIRrCPoyk6kL6IAjAG2IolMK4T0hNUe0HOUs5Jw==
@@ -688,15 +685,6 @@ json-schema-ref-parser@^4.1.0:
     debug "^3.1.0"
     js-yaml "^3.10.0"
     ono "^4.0.3"
-
-json-schema-ref-parser@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/json-schema-ref-parser/-/json-schema-ref-parser-6.1.0.tgz#30af34aeab5bee0431da805dac0eb21b574bf63d"
-  integrity sha512-pXe9H1m6IgIpXmE5JSb8epilNTGsmTb2iPohAXpOdhqGFbQjNeHHsZxU+C8w6T81GZxSPFLeUoqDJmzxx5IGuw==
-  dependencies:
-    call-me-maybe "^1.0.1"
-    js-yaml "^3.12.1"
-    ono "^4.0.11"
 
 kareem@2.3.1:
   version "2.3.1"
@@ -947,7 +935,7 @@ once@^1.3.0:
   dependencies:
     wrappy "1"
 
-ono@^4.0.11, ono@^4.0.3:
+ono@^4.0.3:
   version "4.0.11"
   resolved "https://registry.yarnpkg.com/ono/-/ono-4.0.11.tgz#c7f4209b3e396e8a44ef43b9cedc7f5d791d221d"
   integrity sha512-jQ31cORBFE6td25deYeD80wxKBMj+zBmHTrVxnc6CKhx8gho6ipmWM5zj/oeoqioZ99yqBls9Z/9Nss7J26G2g==
@@ -1419,11 +1407,6 @@ swagger-schema-official@2.0.0-bab6bed:
   version "2.0.0-bab6bed"
   resolved "https://registry.yarnpkg.com/swagger-schema-official/-/swagger-schema-official-2.0.0-bab6bed.tgz#70070468d6d2977ca5237b2e519ca7d06a2ea3fd"
   integrity sha1-cAcEaNbSl3ylI3suUZyn0Gouo/0=
-
-swagger-ui-dist@^3.22.1:
-  version "3.25.1"
-  resolved "https://registry.yarnpkg.com/swagger-ui-dist/-/swagger-ui-dist-3.25.1.tgz#8aa9c3217849722f6d8c7fac6b2222f9082227bb"
-  integrity sha512-Sw/K95j1pT9TZtLKiHDEml7YqcXC9thTTQjxrvNgd9j1KzOIxpo/5lhHuUMAN/hxVAHetzmcBcQaBjywRXog8w==
 
 teamwork@3.x.x:
   version "3.2.0"
