@@ -4,14 +4,19 @@ const api = require('../src/apiExample')
 
 let app = {}
 
+const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxlbXVlbCIsImlkIjoxLCJpYXQiOjE1ODgyNzAxODN9.il-xR9I6iBMc-JLPtV0tmSOwce-WNCIXheK0j8cPnwE'
+
 describe('Suíte de Testes', () => {
     before(async () => {
         app = await api
     })
 
-    it.only('deve listar os heróis', async () => {
+    it('deve listar os heróis', async () => {
         const result = await app.inject({
             method: 'GET',
+            headers: {
+                Authorization: TOKEN
+            },
             url: '/heroes?skip=0&limit=5&nome=Batman'
         })
 
@@ -20,12 +25,15 @@ describe('Suíte de Testes', () => {
         assert.deepEqual(statusCode, 200)
     })
 
-    it('deve cadastrar um herói', async () => {
-        const hero = { nome: 'Superman', poder: 'Força' }
+    it.only('deve cadastrar um herói', async () => {
+        const hero = { nome: 'Cyborg', poder: 'Tecnologia' }
 
         const result = await app.inject({
             method: 'POST',
             url: '/heroes',
+            headers: {
+                Authorization: TOKEN
+            },
             payload: JSON.stringify(hero)
         })
 
@@ -36,8 +44,10 @@ describe('Suíte de Testes', () => {
         const hero = { nome: 'Mulher Maravilha', poder: 'Laço' }
 
         const { result: [{ _id }] } = await app.inject({
-            method: 'GET',
-            url: '/heroes?nome=Lanterna Verde'
+            method: 'GET',headers: {
+                Authorization: TOKEN
+            },
+            url: '/heroes?nome=Superman'
         })
 
         const result = await app.inject({
@@ -52,7 +62,10 @@ describe('Suíte de Testes', () => {
     it('deve remover um herói', async () => {
         const { result: [{ _id }] } = await app.inject({
             method: 'GET',
-            url: '/heroes?nome=Lanterna Verde'
+            headers: {
+                Authorization: TOKEN
+            },
+            url: '/heroes?nome=Superman'
         })
 
         const result = await app.inject({
@@ -61,5 +74,23 @@ describe('Suíte de Testes', () => {
         })
         console.log('result', result.statusCode)
         assert.deepEqual(result.statusCode, 200)
+    })
+
+    it('deve obter um token JWT', async () => {
+        const user = { username: 'lemuel', password: '123' }
+
+        const result = await app.inject({
+            method: 'POST',
+            url: '/login',
+            payload: JSON.stringify(user)
+        })
+
+        console.log('result', result.result)
+
+        const statusCode = result.statusCode
+        // const dados = JSON.parse(result.payload)
+
+        assert.deepEqual(statusCode, 200)
+        // assert.ok(dados.token.length > 10)
     })
 })

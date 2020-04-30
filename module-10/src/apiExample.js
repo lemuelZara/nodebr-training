@@ -37,7 +37,7 @@ async function main() {
         }
     ])
 
-    app.route([...mapRoutes(new Hero(mongodbContext), Hero.methods())])
+    app.route(mapRoutes(new Hero(mongodbContext), Hero.methods()))
 
     await app.start()
 

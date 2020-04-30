@@ -1,4 +1,5 @@
 const Joi = require('joi')
+const Jwt = require('jsonwebtoken')
 
 const Base = require('./base/base')
 
@@ -49,7 +50,7 @@ class Hero extends Base {
         return {
             method: 'POST',
             path: '/heroes',
-            config: {                
+            config: {
                 tags: ['api'],
                 description: 'Deve cadastrar os Heróis',
                 notes: 'Deve cadastrar um Herói com nome e poder',
@@ -74,7 +75,7 @@ class Hero extends Base {
         return {
             path: '/heroes/{id}',
             method: 'PATCH',
-            config: {                
+            config: {
                 tags: ['api'],
                 description: 'Deve atualizar os Heróis',
                 notes: 'Pode atualizar qualquer campo',
@@ -113,7 +114,7 @@ class Hero extends Base {
             path: '/heroes/{id}',
             method: 'DELETE',
             config: {
-                
+
                 tags: ['api'],
                 description: 'Deve remover os Heróis',
                 notes: 'O ID tem que ser válido',

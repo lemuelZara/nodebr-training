@@ -2,6 +2,10 @@ const Joi = require('joi')
 
 const Base = require('./base/base')
 
+const headers = Joi.object({
+    authorization: Joi.string().required()
+}).unknown()
+
 class Hero extends Base {
     constructor(database) {
         super()
@@ -25,7 +29,8 @@ class Hero extends Base {
                         skip: Joi.number().integer().default(0),
                         limit: Joi.number().integer().default(10),
                         nome: Joi.string().min(3).max(100)
-                    }
+                    },
+                    headers
                 }
             },
             handler: (request, headers) => {
@@ -54,6 +59,7 @@ class Hero extends Base {
                 description: 'Deve cadastrar os Heróis',
                 notes: 'Deve cadastrar um Herói com nome e poder',
                 validate: {
+                    headers,
                     payload: {
                         nome: Joi.string().required().min(3).max(100),
                         poder: Joi.string().required().min(3).max(20)
@@ -82,6 +88,7 @@ class Hero extends Base {
                     params: {
                         id: Joi.string().required()
                     },
+                    headers,
                     payload: {
                         nome: Joi.string().min(3).max(100),
                         poder: Joi.string().min(3).max(20)
@@ -112,12 +119,12 @@ class Hero extends Base {
         return {
             path: '/heroes/{id}',
             method: 'DELETE',
-            config: {
-                
+            config: {                
                 tags: ['api'],
                 description: 'Deve remover os Heróis',
                 notes: 'O ID tem que ser válido',
                 validate: {
+                    headers,
                     params: {
                         id: Joi.string().required()
                     }
