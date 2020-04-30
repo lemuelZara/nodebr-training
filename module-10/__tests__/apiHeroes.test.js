@@ -9,7 +9,7 @@ describe('Suíte de Testes', () => {
         app = await api
     })
 
-    it('deve listar os heróis', async () => {
+    it.only('deve listar os heróis', async () => {
         const result = await app.inject({
             method: 'GET',
             url: '/heroes?skip=0&limit=5&nome=Batman'
@@ -49,7 +49,7 @@ describe('Suíte de Testes', () => {
         assert.deepEqual(result.statusCode, 200)
     })
 
-    it.only('deve remover um herói', async () => {
+    it('deve remover um herói', async () => {
         const { result: [{ _id }] } = await app.inject({
             method: 'GET',
             url: '/heroes?nome=Lanterna Verde'

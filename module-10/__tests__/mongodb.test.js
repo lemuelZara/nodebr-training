@@ -18,7 +18,7 @@ describe('MongoDB: Suíte de Testes', () => {
         assert.deepEqual(result, 'Connected')
     })
 
-    it.only('deve cadastrar um herói', async () => {
+    it('deve cadastrar um herói', async () => {
         const heroi = { nome: 'Batman', poder: 'Dinheiro' }
 
         const { nome, poder } = await mongodbContext.create(heroi)
