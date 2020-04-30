@@ -1,14 +1,23 @@
 const assert = require('assert')
 
 const api = require('../src/apiExample')
+const PasswordHelper = require('../src/helpers/passwordHelper')
+const Context = require('../src/database/strategies/base/contextStrategy')
+const PostgreSQL = require('../src/database/strategies/postgresql/postgresql')
+const UserSchema = require('../src/database/strategies/postgresql/schemas/userSchema')
 
 let app = {}
+let postgresql = {}
 
 const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxlbXVlbCIsImlkIjoxLCJpYXQiOjE1ODgyNzAxODN9.il-xR9I6iBMc-JLPtV0tmSOwce-WNCIXheK0j8cPnwE'
 
 describe('Suíte de Testes', () => {
     before(async () => {
         app = await api
+
+        const connectionPostgreSQL = await PostgreSQL.connect()
+        const model = await PostgreSQL.defineModel(connectionPostgreSQL, UserSchema)
+        postgresql = new Context(new PostgreSQL(connectionPostgreSQL, model))
     })
 
     it('deve listar os heróis', async () => {
@@ -25,7 +34,7 @@ describe('Suíte de Testes', () => {
         assert.deepEqual(statusCode, 200)
     })
 
-    it.only('deve cadastrar um herói', async () => {
+    it('deve cadastrar um herói', async () => {
         const hero = { nome: 'Cyborg', poder: 'Tecnologia' }
 
         const result = await app.inject({
@@ -44,7 +53,7 @@ describe('Suíte de Testes', () => {
         const hero = { nome: 'Mulher Maravilha', poder: 'Laço' }
 
         const { result: [{ _id }] } = await app.inject({
-            method: 'GET',headers: {
+            method: 'GET', headers: {
                 Authorization: TOKEN
             },
             url: '/heroes?nome=Superman'
@@ -54,7 +63,7 @@ describe('Suíte de Testes', () => {
             method: 'PATCH',
             url: `/heroes/${_id}`,
             payload: JSON.stringify(hero)
-        }) 
+        })
 
         assert.deepEqual(result.statusCode, 200)
     })
@@ -69,7 +78,7 @@ describe('Suíte de Testes', () => {
         })
 
         const result = await app.inject({
-            method: 'DELETE',            
+            method: 'DELETE',
             url: `/heroes/${_id}`,
         })
         console.log('result', result.statusCode)
@@ -77,20 +86,52 @@ describe('Suíte de Testes', () => {
     })
 
     it('deve obter um token JWT', async () => {
-        const user = { username: 'lemuel', password: '123' }
+        const user = {
+            username: 'lemuel',
+            password: '$2a$04$wc9XSW/VxKobUqD/jbEgpOSjNdpH/I5oClr5pK2PfdLnaqSobYqXm'
+        }
 
         const result = await app.inject({
             method: 'POST',
             url: '/login',
-            payload: JSON.stringify(user)
+            payload: user
         })
-
-        console.log('result', result.result)
 
         const statusCode = result.statusCode
         // const dados = JSON.parse(result.payload)
 
         assert.deepEqual(statusCode, 200)
         // assert.ok(dados.token.length > 10)
+    })
+
+    it('deve gerar um hash a partir de uma senha', async () => {
+        const password = 'lemuel2020'
+
+        const result = await PasswordHelper.hashPassword(password)
+
+        assert.ok(result.length > 10)
+    })
+
+    it('deve comparar uma senha e seu hash', async () => {
+        const result = await PasswordHelper.comparePassword(
+            'lemuel2020',
+            '$2a$04$wc9XSW/VxKobUqD/jbEgpOSjNdpH/I5oClr5pK2PfdLnaqSobYqXm'
+        )
+
+        assert.ok(result)
+    })
+
+    it.only('deve retornar não autorizado ao tentar obter um login errado', async () => {
+        const result = await app.inject({
+            method: 'POST',
+            url: '/login',
+            payload: {
+                username: 'lemuel',
+                password: '1236'
+            }
+        })
+
+        assert.deepEqual(result.statusCode, 401)
+        // assert.deepEqual(dados.error, "")
     })
 })

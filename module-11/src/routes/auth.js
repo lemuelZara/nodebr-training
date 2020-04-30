@@ -1,13 +1,16 @@
 const Joi = require('joi')
 const Jwt = require('jsonwebtoken')
+const Boom = require('boom')
 
 const Base = require('./base/base')
+const PasswordHelper = require('../helpers/passwordHelper')
 
 class Auth extends Base {
-    constructor(secretKey) {
+    constructor(secretKey, database) {
         super()
 
         this.secretKey = secretKey
+        this.database = database
     }
 
     login() {
@@ -26,13 +29,29 @@ class Auth extends Base {
                     }
                 }
             },
-            handler: async (req) => {
+            handler: async (req, h) => {
                 const { username, password } = req.payload
 
+                const [user] = await this.database.read({
+                    username: username
+                })
+
+                console.log('user', user)
+
+                if (!user) {
+                    return Boom.unauthorized('O usuário ou senha nao existe')
+                }
+
+                const match = await PasswordHelper.comparePassword(password, user.password)
+
+                if (!match) {
+                    return Boom.unauthorized('O usuário nao existe')
+                }
+
                 return {
-                    token:Jwt.sign({
+                    token: Jwt.sign({
                         username: username,
-                        id: 1
+                        id: user.id
                     }, this.secretKey)
                 }
             }

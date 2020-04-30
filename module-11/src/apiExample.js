@@ -10,13 +10,14 @@ const MongoDB = require('./database/strategies/mongodb/mongodb')
 const HeroSchema = require('./database/strategies/mongodb/schemas/heroSchema')
 const Hero = require('./routes/hero')
 const Auth = require('./routes/auth')
+const PostgreSQL = require('../src/database/strategies/postgresql/postgresql')
+const UserSchema = require('../src/database/strategies/postgresql/schemas/userSchema')
 
 const app = new Hapi.Server({
     port: 6500
 })
 
 const secretKey = 'abc123'
-
 
 function mapRoutes(instance, methods) {
     return methods.map(method => {
@@ -27,6 +28,11 @@ function mapRoutes(instance, methods) {
 async function main() {
     const connection = MongoDB.connect()
     const mongodbContext = new Context(new MongoDB(connection, HeroSchema))
+    
+    const connectionPostgreSQL = await PostgreSQL.connect()
+    const model = await PostgreSQL.defineModel(connectionPostgreSQL, UserSchema)
+
+    const postgresqlContext = new Context(new PostgreSQL(connectionPostgreSQL, model))
 
     await app.register([
         HapiJwt,
@@ -56,7 +62,7 @@ async function main() {
 
     app.route([
         ...mapRoutes(new Hero(mongodbContext), Hero.methods()),
-        ...mapRoutes(new Auth(secretKey), Auth.methods())
+        ...mapRoutes(new Auth(secretKey, postgresqlContext), Auth.methods())
     ])
 
     await app.start()
